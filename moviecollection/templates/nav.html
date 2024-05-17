@@ -1,0 +1,54 @@
+<nav class="navbar navbar-expand-lg " >
+    <div class="container-fluid" style="background-color: #3e4444;">
+      <div class="row" style="background-color: #3e4444;">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse col-sm-8" id="navbarNavDropdown">
+          {% if user.is_authenticated %}
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link active navbtn" aria-current="page" href="{% url 'movies:allMoviedetails' %}"><p  class="navbtn" style="color: #d64161;">Home</p></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link navbtn" href="{% url 'users:logout' %}"><p class="navbtn" style="color: #d64161;" >Logout</p></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link navbtn" href="{% url 'users:addmovies' %}"><p class="navbtn" style="color: white;" >Add Movie</p></a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle navbtn" href="{% url 'movies:allMoviedetails' %}" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <p class="navbtn" style="color: #d64161;">Category</p>
+              </a>
+              <ul style="background-color: #d64161;" class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                {% for cat in links %}
+                <li><a class="dropdown-item " href="{{cat.get_url}}"><p style="color: #2272FF;">{{cat.name}}</p></a></li>
+                {% endfor %}
+              </ul>
+            </li>
+          </ul>
+          {% else %}
+          <ul class="navbar-nav">
+              <li class="nav-item">
+                  <a class="nav-link active navbtn" aria-current="page" href="{% url 'movies:allMoviedetails' %}"><p class="navbtn" style="color: white;">Home</p></a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link navbtn" href="{% url 'users:register' %}"><p class="navbtn" style="color:white;">Register</p></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link navbtn" href="{% url 'users:login' %}"><p class="navbtn" style="color: white;">Login</p></a>
+              </li>
+          </ul>
+
+          {% endif %}
+        </div>
+        <div class="col-sm-4" style=" display: flex;justify-content: center;align-items: center;">
+          <form  class="d-flex" action="{% url 'search_app:searchResult' %}" method="get">
+            {% csrf_token %}
+            <input style="justify-items: right; width: 250px;height: 45px; background-color: black;color: white;border-color: #2272FF;" class="form-control me-2" type="search" placeholder="Search" name="q" aria-label="Search">
+            <button class="btn btn-outline-success" style="border-color: #feb236; color: #d64161;" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+          </form>
+        </div>
+    </div>
+    </div>
+  </nav>

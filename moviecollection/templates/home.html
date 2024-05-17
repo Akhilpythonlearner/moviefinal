@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block metadescription %}
+Prime Entertainment - In the world of endless movie choices, this website for sharing, discovering, and discussing
+the latest movie.
+{% endblock %}
+{% block title %}Prime Entertainment{% endblock %}
+{% block content %}
+<br>
+{% if c_slug is None  %}
+    {% for cat in links %}
+        <div><h3 style="margin-left: 5px;">{{cat.name}}</h3></div>
+        <div class="container-fluid" style="overflow:auto;background-color: black;">
+            <div class="scrolling-wrapper row flex-row flex-nowrap gx-2 mt-4 pb-4 pt-2 ">
+                {% for movie in moviedetails.object_list %}
+                    {% if movie.category.name == cat.name %}
+                        <div class="card card-block col-4 col-9 col-sm-12 col-md-4  col-lg-4 mr-2 border-0"  style="width: 550px; background-color: black;">
+                            <a href="{{movie.get_url}}"><img width="10px"  height="250px" src="{{movie.poster.url}}" class="card-img-top" alt="{{movie.title}}"></a>
+                            <a href="{{movie.get_url}}"><div class="card-img-overlay">
+                                <h5 class="card-title" style="color: white;">{{movie.title}}</h5>
+                            </div></a>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+        <br>
+    {% endfor %}
+
+{% else %}
+
+            <div><h3 style="margin-left: 5px;">{{c_slug}}</h3></div>
+            <div class="container-fluid">
+     <div class="row">
+                    {% for movie in moviedetails.object_list %}
+                              <div class="col-md-3">
+                           <div class="card" style="width:8rem">
+
+                                <a href="{{movie.get_url}}"><img width="10px"  height="150px" src="{{movie.poster.url}}" class="card-img-top" alt="{{movie.title}}"></a>
+                                <a href="{{movie.get_url}}">
+                                    <div class="card-img-overlay">
+                                        <h5 class="card-title" style="color: white;">{{movie.title}}</h5>
+                                    </div></a>
+                            </div>
+                </div>
+                   {% endfor %}
+                </div>
+
+            </div>
+            <br>
+{% endif %}
+
+    <div class="mx-auto">
+        {% if moviedetails.paginator.num_pages > 1 %}
+        <div class="text-center">
+            {% for md in moviedetails.paginator.page_range %}
+            <a href="?page={{md}}" class="btn btn-light btn-sm {% if moviedetails.number == pg %} active {% endif %}">{{md}}</a>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+    <br>
+{% endblock %}
